@@ -1,32 +1,43 @@
 #include "advancedCalculator.hpp"
 #include <cmath>
 
-std::map<const char, std::function<double(const double a, const double b)>> map_{
-    {'+', std::plus<double>{}},
-    {'-', std::minus<double>{}},
-    {'*', std::multiplies<double>{}},
-    {'/', std::divides<double>{}},
-    {'%', [](const double& a, const double b) { return static_cast<int>(a) % static_cast<int>(b); }},
-    {'!', [](const double& a, const double b) { return std::tgamma(a + 1); }},
-    {'^', [](const double& a, const double b) { return std::pow(a, b); }},
-    {'$', [](const double& a, const double b) { return std::pow(a, 1 / b); }}};
 
-ErrorCode process(std::string input, double* out) {
+
+std::pair<std::string, std::string> findNumbers(std::string& input) {
+    std::string allOperations{"+-/*!$%^"};
+    std::string firstValue = "";
+    std::string secounValue = "";
+
+    input.erase(std::remove(input.begin(), input.end(), ' '), input.end());
+
+    auto it = std::find_first_of(input.begin() + 1,
+                                 input.end(),
+                                 allOperations.begin(),
+                                 allOperations.end());
+ 
+     firstValue= input.substr(0, std::distance(input.begin(), it));
+  
+    secounValue= input.substr(firstValue.size()+1, std::distance(it+1, input.end()+1));
+    
+    return std::make_pair(firstValue, secounValue);
 }
 
-bool enterNumber(double a) {
+bool isNumber(const std::string& input) {
+    for (const auto el : input) {
+        if (isdigit(el)) {
+        }
+    }
 }
 
-bool allowedOperation(char operation) {
-    std::string allowedOperations = "-+*/$!^%";
-    auto it = std::find_if(allowedOperations.begin(),
-                           allowedOperations.end(),
-                           [&operation](auto el) {
-                               return el == operation;
-                           });
-    return it != allowedOperations.end();
+bool isOperation(char sign) {
+    return operations.find(sign) != operations.end();
 }
 
-bool isIntiger(double number) {
-    return std::floor(number) == number;
+bool isBadCharakter(std::string& input) {
+    for (auto el : input) {
+        if (!isdigit(el) && !isOperation(el) && el != '.' && el != ' ') {
+            return false;
+        }
+        return true;
+    }
 }

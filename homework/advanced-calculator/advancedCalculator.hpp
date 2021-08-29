@@ -17,9 +17,23 @@ enum class ErrorCode {
 
 ErrorCode process(std::string input, double* out);
 
+std::map<const char, std::function<double(const double a, const double b)>> operations{
+    {'+', std::plus<double>{}},
+    {'-', std::minus<double>{}},
+    {'*', std::multiplies<double>{}},
+    {'/', std::divides<double>{}},
+    {'%', [](const double& a, const double b) { return static_cast<int>(a) % static_cast<int>(b); }},
+    {'!', [](const double& a, const double b) { return std::tgamma(a + 1); }},
+    {'^', [](const double& a, const double b) { return std::pow(a, b); }},
+    {'$', [](const double& a, const double b) { return std::pow(a, 1 / b); }}};
 
-bool isIntiger(double number);
-bool isBadCharacter(std::string& input);
+
+
+std::pair<std::string, std::string> findNumbers(std::string& input);
+bool isBadCharakter(std::string& input);
+bool isNumber(const std::string& input);
+bool isOperation(char sign);
+
+
 bool isBadFormat();
 bool isBadNumber();
-double fromStringToDouble(std::string& input);
