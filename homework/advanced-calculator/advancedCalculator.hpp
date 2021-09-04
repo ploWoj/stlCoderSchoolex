@@ -3,6 +3,8 @@
 #include <functional>
 #include <map>
 #include <string>
+#include <cmath>
+
 
 enum class ErrorCode {
     OK,
@@ -13,27 +15,14 @@ enum class ErrorCode {
     ModuleOfNonIntegerValue  // - próba obliczenia % na liczbie niecałkowitej
 };
 
-// std::map<const char, std::function<double(const double, const double)>> map_;
+ErrorCode process(std::string input, double* out); 
+ErrorCode parsingWord(const std::string& input, std::string& output, std::string::const_iterator& it);
+ErrorCode validation(std::string& input, double& a, double& b, char& sign);
 
-ErrorCode process(std::string input, double* out);
 
-std::map<const char, std::function<double(const double a, const double b)>> operations{
-    {'+', std::plus<double>{}},
-    {'-', std::minus<double>{}},
-    {'*', std::multiplies<double>{}},
-    {'/', std::divides<double>{}},
-    {'%', [](const double& a, const double b) { return static_cast<int>(a) % static_cast<int>(b); }},
-    {'!', [](const double& a, const double b) { return std::tgamma(a + 1); }},
-    {'^', [](const double& a, const double b) { return std::pow(a, b); }},
-    {'$', [](const double& a, const double b) { return std::pow(a, 1 / b); }}};
+char signParsing(std::string::const_iterator& it);
+bool isIntiger(std::string& input);
 
 
 
-std::pair<std::string, std::string> findNumbers(std::string& input);
-bool isBadCharakter(std::string& input);
-bool isNumber(const std::string& input);
-bool isOperation(char sign);
 
-
-bool isBadFormat();
-bool isBadNumber();

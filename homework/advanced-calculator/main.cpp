@@ -4,27 +4,20 @@
 
 
 int main() {
+    double result{};
+    std::string equation{};
 
-    double result = 0;
-    std:: string option ="";
-    while(true) {
-        std::cout << "Enter operation which you want to do(+-*/%^!$) \n"; 
+    while (true) {
+        std::cout << "Enter equation: ";
+        std::getline(std::cin, equation);
 
-        std::getline(std::cin, option);
-
-        std::cout << "OPTION: " << option << '\n';
-
-
-
-        // if(option == "exit") {
-        //     break;
-        // }
-        // if(process(option, &result) != ErrorCode::OK){
-        //     continue;
-        // }
+        if (equation == "quit") {
+            break;
+        }
+        if (process(equation, &result) != ErrorCode::OK) {
+            continue;
+        }
+        std::cout << "Result: " << result << '\n';
+        std::cout << "Write quit to exit!!!\n";
     }
-
-    
-    std::cin >> option;
-
 }
